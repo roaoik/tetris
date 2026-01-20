@@ -261,26 +261,7 @@
             tetromino.row = row;
         });
 
-        document.getElementById('restart').addEventListener('click', () => {
-            gameOver=false;
-
-
-            // Mazanie plných riadkov
-            for (let row = playfield.length - 1; row >= 0; ) {
-                
-                    for (let r = row; r >= 0; r--) {
-                        for (let c = 0; c < playfield[r].length; c++) {
-                            playfield[r][c] = 0;
-                        }
-                    } 
-                    hits = 0;
-                
-                    row--;
-                
-            }
-
-
-        });
+        
 
         // Podpora klávesnice (pre PC)
         document.addEventListener('keydown', function(e) {
@@ -324,3 +305,4 @@
 
 </body>
 </html>
+

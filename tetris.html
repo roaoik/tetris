@@ -34,17 +34,28 @@
             cursor: pointer;
             touch-action: manipulation; /* Pre lepší touch na mobile */
         }
+        
+        #info {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
     <canvas width="320" height="640" id="game"></canvas>
     <div class="controls">
-        <button id="left">Doľava</button>
+        <button id="left">Vľavo</button>
         <button id="rotate">Rotovať</button>
-        <button id="right">Doprava</button>
+        <button id="right">Vpravo</button>
         <button id="down">Dole</button>
     </div>
+    <div id="info">Body: 0</div>
+
     <script>
+        const info = document.getElementById('info');
+        let hits = 0;
         // Založené na https://tetris.fandom.com/wiki/Tetris_Guideline
 
         // Náhodné číslo v rozsahu
@@ -127,7 +138,7 @@
                         for (let c = 0; c < playfield[r].length; c++) {
                             playfield[r][c] = playfield[r - 1][c];
                         }
-                    }
+                    } hits++;
                 } else {
                     row--;
                 }
@@ -182,8 +193,10 @@
 
         // Herná slučka
         function loop() {
+            info.innerHTML = `Body: ${hits}`;
             rAF = requestAnimationFrame(loop);
             context.clearRect(0, 0, canvas.width, canvas.height);
+                        
             for (let row = 0; row < 20; row++) {
                 for (let col = 0; col < 10; col++) {
                     if (playfield[row][col]) {
@@ -248,6 +261,27 @@
             tetromino.row = row;
         });
 
+        document.getElementById('restart').addEventListener('click', () => {
+            gameOver=false;
+
+
+            // Mazanie plných riadkov
+            for (let row = playfield.length - 1; row >= 0; ) {
+                
+                    for (let r = row; r >= 0; r--) {
+                        for (let c = 0; c < playfield[r].length; c++) {
+                            playfield[r][c] = 0;
+                        }
+                    } 
+                    hits = 0;
+                
+                    row--;
+                
+            }
+
+
+        });
+
         // Podpora klávesnice (pre PC)
         document.addEventListener('keydown', function(e) {
             if (gameOver) return;
@@ -283,6 +317,10 @@
         // Štart hry
         rAF = requestAnimationFrame(loop);
     </script>
+
+
+
+
+
 </body>
 </html>
-
